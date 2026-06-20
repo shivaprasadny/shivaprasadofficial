@@ -1,10 +1,22 @@
-import React, { useMemo, useState } from "react";
+import {
+  AboutSection,
+  BooksSection,
+  ContactSection,
+  EducationSection,
+  ExperienceSection,
+  Footer,
+  Header,
+  Hero,
+  ProjectsSection,
+  SkillsSection,
+  SportsSection,
+  VolunteerSection,
+} from "./components/PortfolioSections";
 
 const PROFILE = {
   name: "Shiva Prasad",
   title: "Java Full Stack Developer",
-  location: "Brooklyn, New York 11223",
-  phone: "+1 (929) 261-8102",
+  location: "Brooklyn, New York",
   email: "shivaprasadmaya@gmail.com",
   linkedin: "https://www.linkedin.com/in/shivaprasadjs/",
   website: "https://www.shivaprasadofficial.com/",
@@ -12,12 +24,72 @@ const PROFILE = {
 };
 
 const BOOKS_PREVIEW_COUNT = 12;
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/mqevzzpq";
 
-const SUMMARY = [
-  "To bring my expertise as a Full Stack Developer to a dynamic organization, leveraging my experience in building scalable, secure, and high-performance applications for Fiserv, American Express, Ford, and Walmart. I aim to drive innovation, optimize system performance, and deliver impactful solutions that enhance user experience and operational efficiency.",
-  "Results-driven Full Stack Developer with 6+ years of experience designing and delivering scalable, high-performance applications for Fortune 500 companies like American Express, Ford, and Walmart. Proficient in Java, Spring Boot, Angular, React, and microservices, with a proven track record of optimizing system performance, reducing development time, and implementing secure, real-time solutions. Adept at collaborating in Agile environments and leveraging CI/CD pipelines to drive efficiency and innovation. Seeking to leverage my expertise to contribute to impactful projects and deliver cutting-edge solutions.",
+// Short homepage introduction. Keep this focused and recruiter-friendly.
+const SUMMARY =
+  "I’m a Full Stack Developer with 7+ years of experience building secure, scalable applications for Fiserv, American Express, Ford, and Walmart. I work across Java, Spring Boot, React, Angular, cloud infrastructure, and event-driven systems, with a practical focus on performance, reliability, and useful customer experiences.";
+
+// Featured personal projects shown near the top of the portfolio.
+const PROJECTS = [
+  {
+    title: "PayDG",
+    eyebrow: "Income tracking app",
+    description:
+      "A mobile app for restaurant workers to track shifts, hours, tips, workplaces, and income with visual insights, local backups, and biometric protection.",
+    challenge:
+      "Built reliable offline-first shift calculations across multiple workplaces, roles, break times, hourly rates, and tip records.",
+    technologies: ["React Native", "Expo", "TypeScript", "SQLite", "Biometrics"],
+    github: "https://github.com/shivaprasadny/paydg",
+    monogram: "PD",
+  },
+  {
+    title: "ExpenseDG",
+    eyebrow: "Personal finance app",
+    description:
+      "A privacy-focused mobile expense manager with income tracking, budgets, recurring records, analytics, smart insights, notifications, backups, and biometric security.",
+    challenge:
+      "Designed local SQLite data and migration flows for expenses, income, recurring transactions, categories, budgets, and user settings.",
+    technologies: ["React Native", "Expo", "TypeScript", "SQLite", "Charts"],
+    github: "https://github.com/shivaprasadny/ExpenseDg",
+    monogram: "ED",
+  },
+  {
+    title: "Gotham Cricket Platform",
+    eyebrow: "Backend API",
+    description:
+      "A Spring Boot backend for managing cricket teams, players, squads, matches, authentication, notifications, and documented REST APIs.",
+    challenge:
+      "Modeled connected cricket workflows while securing REST endpoints with JWT authentication and role-aware access.",
+    technologies: ["Java", "Spring Boot", "JWT", "JPA", "OpenAPI"],
+    github: "https://github.com/shivaprasadny/gotham-cricket-backend",
+    monogram: "GC",
+  },
+  {
+    title: "Gotham Cricket Mobile",
+    eyebrow: "Mobile application",
+    description:
+      "A companion mobile experience for the cricket platform with authenticated sessions, team workflows, notifications, and match information.",
+    challenge:
+      "Coordinated persisted authentication, API error handling, notifications, and navigation across a multi-screen mobile application.",
+    technologies: ["React Native", "Expo", "TypeScript", "REST APIs"],
+    github: "https://github.com/shivaprasadny/gotham-cricket-club-mobile",
+    monogram: "GM",
+  },
+  {
+    title: "Restaurant Closeout Sheet",
+    eyebrow: "Operations tool",
+    description:
+      "A responsive closeout application that helps restaurant teams organize daily totals, time sheets, and end-of-shift reporting.",
+    challenge:
+      "Turned a dense operational closeout process into responsive forms and print-friendly reports that remain usable during busy shifts.",
+    technologies: ["React", "TypeScript", "Vite", "Responsive UI"],
+    github: "https://github.com/shivaprasadny/restaurant-closeout-sheet",
+    monogram: "RC",
+  },
 ];
 
+// Skills are grouped by how they are used rather than displayed as one long list.
 const SKILLS = [
   { k: "Languages", v: "Java, JavaScript, TypeScript, HTML, SQL" },
   {
@@ -32,7 +104,14 @@ const SKILLS = [
     k: "CI/CD",
     v: "Jenkins, GitHub Actions / GitLab CI, build & deployment scripting, containerization",
   },
-  { k: "AI Productivity Tools", v: "GitHub Copilot, ChatGPT, OpenAI API, Cursor AI" },
+  {
+    k: "AI & LLM Development",
+    v: "Large Language Models (LLMs), OpenAI API, prompt engineering, AI-assisted workflows",
+  },
+  {
+    k: "AI Coding Tools",
+    v: "OpenAI Codex, Claude Code, GitHub Copilot, ChatGPT, Cursor AI",
+  },
 ];
 
 const CERTS = [{ title: "AWS Certified Cloud Practitioner", sub: "Amazon Web Services" }];
@@ -44,6 +123,7 @@ const SPORTS = [
   { n: 50, label: "Half Marathons" },
 ];
 
+// Professional experience content is intentionally limited to selected achievements.
 const EXPERIENCE = [
   {
     company: "Fiserv",
@@ -52,13 +132,10 @@ const EXPERIENCE = [
     dates: "Oct 2024 – Present",
     bullets: [
       "Designed and delivered scalable financial applications using AWS, React.js, Java Spring Boot, and TypeScript, ensuring strong alignment with client requirements and broader business objectives.",
-      "Led end-to-end SDLC activities—from requirements gathering and solution design to deployment—overseeing unit testing, API integration, and post-launch support to ensure reliability and performance.",
       "Developed secure, high-performance RESTful APIs and microservices using Java Spring Boot, implementing JWT-based authentication, Redis caching, and database performance enhancements to support scalable growth.",
       "Built responsive and accessible user interfaces with React.js, Redux, and TailwindCSS, optimizing frontend performance to deliver intuitive user experiences.",
       "Utilized AWS services such as S3, Lambda, and DynamoDB to architect fault-tolerant applications; collaborated with data engineering teams to fine-tune Snowflake and PostgreSQL queries for faster analytics.",
       "Automated CI/CD pipelines with Git, Jenkins, Docker, and Kubernetes, decreasing release cycles by ~30% and accelerating delivery of customer-facing features.",
-      "Championed Agile practices and cross-functional collaboration by leading sprint planning, backlog refinement, and rapid production issue resolution using AWS CloudWatch to minimize service disruptions.",
-      "Leveraged AI-assisted development tools (GitHub Copilot, ChatGPT) to accelerate debugging, improve documentation, and enhance code quality across backend and frontend services.",
     ],
   },
   {
@@ -68,17 +145,10 @@ const EXPERIENCE = [
     dates: "Jun 2021 – Jul 2024",
     bullets: [
       "Designed and developed web applications using HTML, JavaScript, and Angular, ensuring responsive and user-friendly interfaces.",
-      "Participated in all stages of SDLC using Agile Scrum methodology, including sprint planning, daily standups, and retrospectives.",
-      "Utilized NgRx-bootstrap for CSS styling and Node.js for server-side scripting to enhance application performance and scalability.",
       "Developed and maintained RESTful APIs for seamless integration between frontend and backend systems.",
-      "Wrote and maintained YAML files for API documentation and deployed them into Swagger for improved usability.",
       "Implemented Java, Spring, Hibernate, and JMS for backend development, ensuring robust and scalable solutions.",
-      "Managed project dependencies using Maven and version control using Git, ensuring efficient collaboration and code management.",
-      "Conducted bug reporting, task tracking, and issue resolution using Rally, improving team productivity and project transparency.",
       "Built and maintained GraphQL schemas for the balance SOR vertical, enabling efficient data querying and retrieval.",
       "Worked with Jenkins to establish CI/CD pipelines, automating build, test, and deployment processes for continuous improvement.",
-      "Developed scripts for building, packaging, and deploying core services and applications, streamlining deployment workflows.",
-      "Collaborated with cross-functional teams to ensure alignment between technical solutions and business requirements, delivering high-quality software on time.",
     ],
   },
   {
@@ -87,16 +157,10 @@ const EXPERIENCE = [
     location: "Piscataway, NJ",
     dates: "Apr 2019 – May 2021",
     bullets: [
-      "Developed and maintained enterprise applications for Ford's internal systems, including business logic, user interfaces, and reporting tools to support critical operations.",
       "Designed, tested, and deployed microservices and monolithic architectures for vehicle diagnostics and inventory management systems, improving scalability and performance.",
       "Built RESTful APIs using Spring Boot, Hibernate, and JPA to integrate customer data management systems with third-party platforms.",
-      "Utilized Swagger UI to document APIs for dealer management systems, enhancing developer productivity and integration efficiency.",
       "Implemented microservices to access and manage data from Oracle and MongoDB databases, supporting real-time analytics for supply chain optimization.",
-      "Configured and used Splunk for centralized logging and monitoring of production line applications, ensuring reliability and uptime.",
-      "Leveraged Spring Config Server for centralized configuration management of global sales and marketing platforms.",
       "Automated deployment processes using Jenkins Pipeline and Azure DevOps CI/CD for vehicle configuration systems, reducing deployment time by ~30%.",
-      "Implemented DROOLS to handle complex business rules for warranty and claims processing systems, improving automation and accuracy.",
-      "Built reusable components and forms in Angular 8 for employee self-service portals, enhancing UX and maintainability.",
       "Integrated Apache Kafka for real-time messaging between order processing and inventory systems, ensuring smooth data flow and reducing delays.",
     ],
   },
@@ -109,17 +173,13 @@ const EXPERIENCE = [
       "Developed and maintained Walmart’s Receiving Application for Regional Distribution Centres (RDCs), ensuring accurate inventory updates and streamlined distribution to stores.",
       "Designed and implemented RESTful APIs using Spring Boot and Spring Data JPA to integrate inventory systems with vendor data.",
       "Built dynamic and responsive user interfaces using React.js, enhancing usability of internal tools and dashboards.",
-      "Integrated Redux for state management, ensuring consistent and predictable data flow across frontend systems.",
       "Optimized database operations in MongoDB using compound indexes to reduce query times during peak traffic.",
       "Developed real-time streaming pipelines using Apache Kafka to enable event-driven communication between microservices.",
-      "Implemented JWT-based authentication and authorization for secure API access.",
-      "Utilized Log4j and Splunk for centralized logging and monitoring, reducing downtime and improving reliability.",
-      "Deployed and managed applications using Kubernetes for scalability and high availability.",
-      "Built CI/CD pipelines using Jenkins and Docker, automating build, test, and deployment processes.",
     ],
   },
 ];
 
+// Personal sections add character without competing with projects and experience.
 const EDUCATION = [
   { title: "Bachelor of Science in Information Technology", sub: "Kuvempu University · Karnataka, India" },
 ];
@@ -227,337 +287,25 @@ const BOOKS = [
   { title: "Immortal India", author: "Amish Tripathi", tag: "Mythology" },
 ];
 
-function Pill({ children }) {
-  return <span className="pill">{children}</span>;
-}
-
-function Section({ id, title, subtitle, children, right }) {
-  return (
-    <section id={id} className="section">
-      <div className="section-head">
-        <div>
-          <h2>{title}</h2>
-          {subtitle ? <p className="sub">{subtitle}</p> : null}
-        </div>
-        {right ? <div className="section-right">{right}</div> : null}
-      </div>
-      {children}
-    </section>
-  );
-}
-
 export default function App() {
-  const [bookQuery, setBookQuery] = useState("");
-  const [bookTag, setBookTag] = useState("All");
-  const [showAllBooks, setShowAllBooks] = useState(false);
-
-  const allTags = useMemo(() => {
-    const tags = new Set(["All"]);
-    BOOKS.forEach((b) => tags.add(b.tag));
-    return Array.from(tags);
-  }, []);
-
-  const filteredBooks = useMemo(() => {
-    const q = bookQuery.trim().toLowerCase();
-    return BOOKS.filter((b) => {
-      const matchesTag = bookTag === "All" ? true : b.tag === bookTag;
-      const matchesQuery = q
-        ? `${b.title} ${b.author} ${b.tag}`.toLowerCase().includes(q)
-        : true;
-      return matchesTag && matchesQuery;
-    });
-  }, [bookQuery, bookTag]);
-
-  const visibleBooks = useMemo(() => {
-    if (showAllBooks) return filteredBooks;
-    return filteredBooks.slice(0, BOOKS_PREVIEW_COUNT);
-  }, [filteredBooks, showAllBooks]);
-
   return (
     <div className="app">
-      {/* NAV */}
-      <header className="nav">
-        <div className="nav-left">
-          <div className="nav-logo">SP</div>
-          <div className="nav-title">
-            <span className="nav-name">{PROFILE.name}</span>
-            <span className="nav-role">{PROFILE.title}</span>
-          </div>
-        </div>
-
-        <nav className="nav-links">
-          <a href="#about">About</a>
-          <a href="#skills">Skills</a>
-          <a href="#experience">Experience</a>
-          <a href="#education">Education</a>
-          <a href="#sports">Sports</a>
-          <a href="#books">Books</a>
-          <a href="#volunteer">Volunteer</a>
-          <a href="#contact">Contact</a>
-        </nav>
-
-        <div className="nav-cta">
-          <a className="btn small" href="#contact">Contact</a>
-        </div>
-      </header>
+      <Header profile={PROFILE} />
 
       <main>
-        {/* HERO */}
-        <section className="hero">
-          <div className="hero-text">
-            <p className="eyebrow">Java · Spring Boot · React · Angular · Microservices</p>
-            <h1>
-              Building scalable, secure products
-              <span className="accent"> for enterprise teams</span>.
-            </h1>
-
-            <p className="lead">
-              Full Stack Developer with 6+ years of experience delivering high-performance
-              applications for <strong>Fiserv, American Express, Ford, and Walmart</strong>.
-            </p>
-
-            <div className="hero-pills">
-              <Pill>AWS</Pill>
-              <Pill>Spring Boot</Pill>
-              <Pill>React</Pill>
-              <Pill>Kafka</Pill>
-              <Pill>CI/CD</Pill>
-              <Pill>Redis</Pill>
-            </div>
-
-            <div className="hero-info">
-              <div>
-                <span className="label">Location</span>
-                <span>{PROFILE.location}</span>
-              </div>
-              <div>
-                <span className="label">Email</span>
-                <a href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a>
-              </div>
-              <div>
-                <span className="label">Phone</span>
-                <a href="tel:+19292618102">{PROFILE.phone}</a>
-              </div>
-            </div>
-
-            <div className="hero-actions">
-              <a className="btn primary" href="#contact">Let’s Connect</a>
-              <a className="btn" href={PROFILE.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
-              <a className="btn" href={PROFILE.github} target="_blank" rel="noreferrer">GitHub</a>
-            </div>
-
-            <div className="hero-links">
-              <a href={PROFILE.website} target="_blank" rel="noreferrer">
-                {PROFILE.website.replace("https://", "").replace("/", "")}
-              </a>
-            </div>
-          </div>
-
-          <div className="hero-photo-wrap">
-            <div className="photo-card">
-              <img src="/headshot.jpg" alt="Shiva Prasad" className="photo" />
-            </div>
-
-            <div className="cert-card">
-              <div className="cert-title">Certification</div>
-              <div className="cert-main">AWS Certified Cloud Practitioner</div>
-              <div className="cert-sub">Amazon Web Services</div>
-            </div>
-          </div>
-        </section>
-
-        {/* ABOUT */}
-        <Section id="about" title="About">
-          <div className="two-col">
-            <div className="card">
-              <h3>Objective</h3>
-              <p>{SUMMARY[0]}</p>
-            </div>
-            <div className="card">
-              <h3>Summary</h3>
-              <p>{SUMMARY[1]}</p>
-            </div>
-          </div>
-        </Section>
-
-        {/* SKILLS */}
-        <Section id="skills" title="Technical Skills" subtitle="Tools I use to ship reliable software">
-          <div className="grid">
-            {SKILLS.map((s) => (
-              <div className="card" key={s.k}>
-                <h3>{s.k}</h3>
-                <p>{s.v}</p>
-              </div>
-            ))}
-          </div>
-        </Section>
-
-        {/* EXPERIENCE */}
-        <Section
-          id="experience"
-          title="Work Experience"
-          subtitle="Enterprise engineering experience across fintech and automotive"
-        >
-          <div className="timeline">
-            {EXPERIENCE.map((job) => (
-              <article key={`${job.company}-${job.dates}`} className="timeline-item">
-                <div className="dot" />
-                <div className="timeline-content card">
-                  <h3>{job.role} · {job.company}</h3>
-                  <p className="meta">{job.location} · {job.dates}</p>
-                  <ul>
-                    {job.bullets.map((b, idx) => (
-                      <li key={idx}>{b}</li>
-                    ))}
-                  </ul>
-                </div>
-              </article>
-            ))}
-          </div>
-        </Section>
-
-        {/* EDUCATION */}
-        <Section id="education" title="Education">
-          <div className="grid">
-            {EDUCATION.map((e) => (
-              <div className="card" key={e.title}>
-                <h3>{e.title}</h3>
-                <p className="meta">{e.sub}</p>
-              </div>
-            ))}
-            {CERTS.map((c) => (
-              <div className="card" key={c.title}>
-                <h3>{c.title}</h3>
-                <p className="meta">{c.sub}</p>
-              </div>
-            ))}
-          </div>
-        </Section>
-
-        {/* SPORTS */}
-        <Section id="sports" title="Endurance Sports" subtitle="Consistency, discipline, and long-term focus">
-          <div className="stats">
-            {SPORTS.map((s) => (
-              <div key={s.label} className="card stat">
-                <div className="stat-n">{s.n}</div>
-                <div className="stat-label">{s.label}</div>
-              </div>
-            ))}
-          </div>
-        </Section>
-
-        {/* BOOKS */}
-        <Section
-          id="books"
-          title="Books I’ve Read"
-          subtitle="A mix of classics, productivity, history, and Indian literature"
-          right={
-            <div className="books-controls">
-              <input
-                value={bookQuery}
-                onChange={(e) => setBookQuery(e.target.value)}
-                placeholder="Search books…"
-                className="input"
-              />
-              <select
-                value={bookTag}
-                onChange={(e) => {
-                  setBookTag(e.target.value);
-                  setShowAllBooks(false); // reset when filter changes
-                }}
-                className="select"
-              >
-                {allTags.map((t) => (
-                  <option key={t} value={t}>{t}</option>
-                ))}
-              </select>
-            </div>
-          }
-        >
-          <div className="books-grid">
-            {visibleBooks.map((b) => (
-              <div key={`${b.title}-${b.author}`} className="book card">
-                <div className="book-top">
-                  <div className="book-title">{b.title}</div>
-                  <span className="tag">{b.tag}</span>
-                </div>
-                <div className="book-author">{b.author}</div>
-              </div>
-            ))}
-          </div>
-
-          <div className="note">
-            Showing <strong>{visibleBooks.length}</strong> of <strong>{filteredBooks.length}</strong> books (filtered).
-          </div>
-
-          {filteredBooks.length > BOOKS_PREVIEW_COUNT && (
-            <div style={{ marginTop: "0.9rem", display: "flex", gap: "0.6rem", flexWrap: "wrap" }}>
-              <button className="btn" type="button" onClick={() => setShowAllBooks((v) => !v)}>
-                {showAllBooks ? "Show less" : "Show all books"}
-              </button>
-              {!showAllBooks && (
-                <span style={{ color: "#6b7280", fontSize: "0.92rem" }}>
-                  Tip: use search + filter to find quickly.
-                </span>
-              )}
-            </div>
-          )}
-        </Section>
-
-        {/* VOLUNTEER */}
-        <Section id="volunteer" title="Volunteer" subtitle="Giving back through events, community service, and health initiatives">
-          <div className="grid">
-            {VOLUNTEER.map((v) => (
-              <div className="card" key={v.org}>
-                <h3>{v.role} · {v.org}</h3>
-                <p className="meta">{v.dates}</p>
-                <ul>
-                  {v.bullets.map((b, idx) => (
-                    <li key={idx}>{b}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </Section>
-
-        {/* CONTACT */}
-        <Section id="contact" title="Contact" subtitle="Open to Full Stack and Backend roles · NYC / Remote">
-          <div className="grid contact">
-            <div className="card">
-              <h3>Email</h3>
-              <a href={`mailto:${PROFILE.email}`} className="link">{PROFILE.email}</a>
-            </div>
-            <div className="card">
-              <h3>Phone</h3>
-              <a href="tel:+19292618102" className="link">{PROFILE.phone}</a>
-            </div>
-            <div className="card">
-              <h3>LinkedIn</h3>
-              <a href={PROFILE.linkedin} target="_blank" rel="noreferrer" className="link">
-                linkedin.com/in/shivaprasadjs
-              </a>
-            </div>
-            <div className="card">
-              <h3>Website</h3>
-              <a href={PROFILE.website} target="_blank" rel="noreferrer" className="link">
-                shivaprasadofficial.com
-              </a>
-            </div>
-          </div>
-        </Section>
+        <Hero profile={PROFILE} />
+        <ProjectsSection projects={PROJECTS} />
+        <AboutSection summary={SUMMARY} />
+        <SkillsSection skills={SKILLS} />
+        <ExperienceSection experience={EXPERIENCE} />
+        <EducationSection education={EDUCATION} certifications={CERTS} />
+        <SportsSection sports={SPORTS} />
+        <BooksSection books={BOOKS} previewCount={BOOKS_PREVIEW_COUNT} />
+        <VolunteerSection volunteer={VOLUNTEER} />
+        <ContactSection profile={PROFILE} endpoint={FORMSPREE_ENDPOINT} />
       </main>
 
-      <footer className="footer">
-        <div className="footer-inner">
-          <div>© {new Date().getFullYear()} {PROFILE.name}. All rights reserved.</div>
-          <div className="footer-links">
-            <a href={PROFILE.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
-            <span>·</span>
-            <a href={PROFILE.github} target="_blank" rel="noreferrer">GitHub</a>
-          </div>
-        </div>
-      </footer>
+      <Footer profile={PROFILE} />
     </div>
   );
 }
